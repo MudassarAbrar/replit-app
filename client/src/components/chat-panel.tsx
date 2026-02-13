@@ -228,7 +228,7 @@ export default function ChatPanel({ open, onClose }: ChatPanelProps) {
                           <Button
                             size="icon"
                             variant="ghost"
-                            className="h-7 w-7 flex-shrink-0"
+                            className="flex-shrink-0"
                             onClick={() => addToCart(product)}
                             data-testid={`button-chat-add-${product.id}`}
                           >

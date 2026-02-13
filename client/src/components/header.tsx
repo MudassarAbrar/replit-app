@@ -1,10 +1,9 @@
 import { Link, useLocation } from "wouter";
-import { ShoppingBag, MessageCircle, Sun, Moon, Menu, X, Search } from "lucide-react";
+import { ShoppingBag, MessageCircle, Sun, Moon, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/lib/theme-provider";
 import { useCart } from "@/lib/cart-store";
-import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface HeaderProps {
@@ -17,6 +16,13 @@ export default function Header({ onCartOpen, onChatOpen }: HeaderProps) {
   const { itemCount } = useCart();
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -26,24 +32,42 @@ export default function Header({ onCartOpen, onChatOpen }: HeaderProps) {
     { href: "/shop?category=accessories", label: "Accessories" },
   ];
 
+  const isHome = location === "/";
+  const showTransparent = isHome && !scrolled;
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4 h-16">
+    <motion.header
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        showTransparent
+          ? "bg-transparent border-b border-transparent"
+          : "bg-background/80 glass-panel border-b border-border/30"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="flex items-center justify-between gap-4 h-16 sm:h-20">
           <Link href="/" data-testid="link-home">
-            <span className="font-serif text-xl font-bold tracking-wide text-foreground">
+            <motion.span
+              className={`font-serif text-lg sm:text-xl font-bold tracking-[0.15em] transition-colors duration-500 ${
+                showTransparent ? "text-white" : "text-foreground"
+              }`}
+              whileHover={{ opacity: 0.7 }}
+              transition={{ duration: 0.2 }}
+            >
               THE SHOPKEEPER
-            </span>
+            </motion.span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href}>
                 <span
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-xs font-medium uppercase tracking-[0.15em] transition-all duration-300 ${
                     location === link.href
-                      ? "text-foreground"
-                      : "text-muted-foreground"
+                      ? showTransparent ? "text-white" : "text-foreground"
+                      : showTransparent ? "text-white/50" : "text-muted-foreground"
                   }`}
                   data-testid={`nav-${link.label.toLowerCase()}`}
                 >
@@ -58,6 +82,7 @@ export default function Header({ onCartOpen, onChatOpen }: HeaderProps) {
               size="icon"
               variant="ghost"
               onClick={toggleTheme}
+              className={showTransparent ? "text-white/70" : ""}
               data-testid="button-theme-toggle"
             >
               {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -67,6 +92,7 @@ export default function Header({ onCartOpen, onChatOpen }: HeaderProps) {
               size="icon"
               variant="ghost"
               onClick={onChatOpen}
+              className={showTransparent ? "text-white/70" : ""}
               data-testid="button-chat-toggle"
             >
               <MessageCircle className="w-4 h-4" />
@@ -76,21 +102,26 @@ export default function Header({ onCartOpen, onChatOpen }: HeaderProps) {
               size="icon"
               variant="ghost"
               onClick={onCartOpen}
-              className="relative"
+              className={`relative ${showTransparent ? "text-white/70" : ""}`}
               data-testid="button-cart-toggle"
             >
               <ShoppingBag className="w-4 h-4" />
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center" data-testid="text-cart-count">
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center"
+                  data-testid="text-cart-count"
+                >
                   {itemCount}
-                </span>
+                </motion.span>
               )}
             </Button>
 
             <Button
               size="icon"
               variant="ghost"
-              className="md:hidden"
+              className={`md:hidden ${showTransparent ? "text-white/70" : ""}`}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               data-testid="button-mobile-menu"
             >
@@ -106,28 +137,36 @@ export default function Header({ onCartOpen, onChatOpen }: HeaderProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-border/50 bg-background/95 backdrop-blur-xl"
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="md:hidden border-t border-border/30 bg-background/95 glass-panel"
           >
-            <nav className="flex flex-col p-4 gap-2">
-              {navLinks.map((link) => (
-                <Link key={link.href} href={link.href}>
-                  <span
-                    className={`block py-2 px-3 rounded-md text-sm font-medium transition-colors ${
-                      location === link.href
-                        ? "text-foreground bg-accent"
-                        : "text-muted-foreground"
-                    }`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    data-testid={`mobile-nav-${link.label.toLowerCase()}`}
-                  >
-                    {link.label}
-                  </span>
-                </Link>
+            <nav className="flex flex-col p-6 gap-1">
+              {navLinks.map((link, i) => (
+                <motion.div
+                  key={link.href}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                >
+                  <Link href={link.href}>
+                    <span
+                      className={`block py-3 text-sm font-medium uppercase tracking-[0.15em] transition-colors ${
+                        location === link.href
+                          ? "text-foreground"
+                          : "text-muted-foreground"
+                      }`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      data-testid={`mobile-nav-${link.label.toLowerCase()}`}
+                    >
+                      {link.label}
+                    </span>
+                  </Link>
+                </motion.div>
               ))}
             </nav>
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }

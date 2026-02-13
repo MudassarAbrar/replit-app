@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { useLocation, useSearch } from "wouter";
+import { useState, useMemo, useRef } from "react";
+import { useSearch } from "wouter";
 import ProductCard from "@/components/product-card";
 import { products, filterProducts } from "@/lib/products";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Search, SlidersHorizontal, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+
+function ScrollReveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export default function Shop() {
   const searchString = useSearch();
@@ -53,20 +70,32 @@ export default function Shop() {
   ].filter(Boolean) as { key: string; label: string; clear: () => void }[];
 
   return (
-    <div className="min-h-screen pt-16">
-      <div className="bg-card border-b border-border/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-foreground" data-testid="text-shop-title">
-            {category ? category.charAt(0).toUpperCase() + category.slice(1) : "All Products"}
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            {filteredProducts.length} item{filteredProducts.length !== 1 ? "s" : ""}
-          </p>
+    <div className="min-h-screen pt-20 sm:pt-24">
+      <div className="border-b border-border/30">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <p className="editorial-subheading text-muted-foreground mb-3">Collection</p>
+            <h1 className="editorial-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground" data-testid="text-shop-title">
+              {category ? category.charAt(0).toUpperCase() + category.slice(1) : "All Products"}
+            </h1>
+            <p className="text-sm text-muted-foreground mt-3">
+              {filteredProducts.length} item{filteredProducts.length !== 1 ? "s" : ""}
+            </p>
+          </motion.div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-8">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-8"
+        >
           <div className="relative flex-1 w-full sm:max-w-xs">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
@@ -117,10 +146,14 @@ export default function Shop() {
               </SelectContent>
             </Select>
           </div>
-        </div>
+        </motion.div>
 
         {activeFilters.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2 mb-6">
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            className="flex flex-wrap items-center gap-2 mb-8"
+          >
             <span className="text-xs text-muted-foreground">Active:</span>
             {activeFilters.map((f) => (
               <Badge
@@ -141,33 +174,34 @@ export default function Shop() {
                 setPriceRange("");
                 setSearchQuery("");
               }}
-              className="text-xs text-primary ml-1"
+              className="text-xs text-foreground ml-1 editorial-subheading"
               data-testid="button-clear-filters"
             >
               Clear all
             </button>
-          </div>
+          </motion.div>
         )}
 
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-20">
-            <SlidersHorizontal className="w-10 h-10 text-muted-foreground/30 mx-auto mb-4" />
-            <h3 className="font-serif text-lg text-foreground mb-1" data-testid="text-no-results">No products found</h3>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-24"
+          >
+            <SlidersHorizontal className="w-10 h-10 text-muted-foreground/20 mx-auto mb-4" />
+            <h3 className="editorial-heading text-xl text-foreground mb-2" data-testid="text-no-results">No products found</h3>
             <p className="text-sm text-muted-foreground">
               Try adjusting your filters or search query
             </p>
-          </div>
-        ) : (
-          <motion.div
-            layout
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredProducts.map((product, i) => (
-                <ProductCard key={product.id} product={product} index={i} />
-              ))}
-            </AnimatePresence>
           </motion.div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            {filteredProducts.map((product, i) => (
+              <ScrollReveal key={product.id} delay={Math.min(i * 0.05, 0.4)}>
+                <ProductCard product={product} index={i} />
+              </ScrollReveal>
+            ))}
+          </div>
         )}
       </div>
     </div>
