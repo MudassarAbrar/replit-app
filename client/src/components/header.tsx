@@ -43,7 +43,7 @@ export default function Header({ onCartOpen, onChatOpen }: HeaderProps) {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         showTransparent
           ? "bg-transparent border-b border-transparent"
-          : "bg-background/80 glass-panel border-b border-border/30"
+          : "glass-panel-purple border-b border-[hsl(247,75%,64%)]/10"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
@@ -67,7 +67,7 @@ export default function Header({ onCartOpen, onChatOpen }: HeaderProps) {
                   className={`text-xs font-medium uppercase tracking-[0.15em] transition-all duration-300 ${
                     location === link.href
                       ? showTransparent ? "text-white" : "text-foreground"
-                      : showTransparent ? "text-white/50" : "text-muted-foreground"
+                      : showTransparent ? "text-white/40" : "text-muted-foreground"
                   }`}
                   data-testid={`nav-${link.label.toLowerCase()}`}
                 >
@@ -82,7 +82,7 @@ export default function Header({ onCartOpen, onChatOpen }: HeaderProps) {
               size="icon"
               variant="ghost"
               onClick={toggleTheme}
-              className={showTransparent ? "text-white/70" : ""}
+              className={showTransparent ? "text-white/60" : ""}
               data-testid="button-theme-toggle"
             >
               {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -92,7 +92,7 @@ export default function Header({ onCartOpen, onChatOpen }: HeaderProps) {
               size="icon"
               variant="ghost"
               onClick={onChatOpen}
-              className={showTransparent ? "text-white/70" : ""}
+              className={showTransparent ? "text-white/60" : ""}
               data-testid="button-chat-toggle"
             >
               <MessageCircle className="w-4 h-4" />
@@ -102,7 +102,7 @@ export default function Header({ onCartOpen, onChatOpen }: HeaderProps) {
               size="icon"
               variant="ghost"
               onClick={onCartOpen}
-              className={`relative ${showTransparent ? "text-white/70" : ""}`}
+              className={`relative ${showTransparent ? "text-white/60" : ""}`}
               data-testid="button-cart-toggle"
             >
               <ShoppingBag className="w-4 h-4" />
@@ -121,7 +121,7 @@ export default function Header({ onCartOpen, onChatOpen }: HeaderProps) {
             <Button
               size="icon"
               variant="ghost"
-              className={`md:hidden ${showTransparent ? "text-white/70" : ""}`}
+              className={`md:hidden ${showTransparent ? "text-white/60" : ""}`}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               data-testid="button-mobile-menu"
             >
@@ -138,7 +138,7 @@ export default function Header({ onCartOpen, onChatOpen }: HeaderProps) {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden border-t border-border/30 bg-background/95 glass-panel"
+            className="md:hidden border-t border-border/20 glass-panel-purple"
           >
             <nav className="flex flex-col p-6 gap-1">
               {navLinks.map((link, i) => (

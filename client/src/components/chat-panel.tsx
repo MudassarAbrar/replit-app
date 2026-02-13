@@ -18,7 +18,7 @@ interface ChatPanelProps {
 
 const SOPHIA_INTRO = `Hey there! I'm Sophia, your personal style assistant. I can help you find the perfect outfit, recommend pieces based on your style, and even negotiate a deal for you. What are you looking for today?`;
 
-function generateResponse(message: string): { text: string; recommendedProducts: Product[] } {
+function generateResponse(message: string): { text: string; recommendedProducts: Product[]; mood: "warm" | "playful" | "expert" | "empathetic" } {
   const lower = message.toLowerCase();
 
   if (lower.includes("discount") || lower.includes("cheaper") || lower.includes("deal") || lower.includes("birthday")) {
@@ -26,11 +26,21 @@ function generateResponse(message: string): { text: string; recommendedProducts:
       return {
         text: `Happy Birthday! Since it's your special day, I've got something for you. Use code BDAY-20 for 20% off your next purchase! It expires in 15 minutes, so don't wait too long.`,
         recommendedProducts: [],
+        mood: "playful",
       };
     }
     return {
       text: `I love a good negotiation! Here's what I can do - use code LOYAL-10 for 10% off. But if you tell me you're buying 3+ items, I might be able to do better...`,
       recommendedProducts: [],
+      mood: "playful",
+    };
+  }
+
+  if (lower.includes("expensive") || lower.includes("too much") || lower.includes("can't afford")) {
+    return {
+      text: `I completely understand. Let me find some amazing options in a lower price range. Quality doesn't have to break the bank! Here are some beautifully crafted pieces under $100:`,
+      recommendedProducts: products.filter((p) => p.price < 100).slice(0, 4),
+      mood: "empathetic",
     };
   }
 
@@ -41,6 +51,7 @@ function generateResponse(message: string): { text: string; recommendedProducts:
     return {
       text: `Perfect timing! Here are some gorgeous summer picks. The Linen Summer Dress is a bestseller - breathable, elegant, and perfect for warm days. Want me to build a complete outfit?`,
       recommendedProducts: results,
+      mood: "warm",
     };
   }
 
@@ -51,6 +62,7 @@ function generateResponse(message: string): { text: string; recommendedProducts:
     return {
       text: `Love a wedding look! I've pulled some stunning options. The Linen Summer Suit is perfect for outdoor ceremonies, and the Italian Leather Loafers tie the whole look together. Shall I pair them up?`,
       recommendedProducts: results,
+      mood: "expert",
     };
   }
 
@@ -59,6 +71,7 @@ function generateResponse(message: string): { text: string; recommendedProducts:
     return {
       text: `I've got some beautiful dresses for you! The Linen Summer Dress is effortlessly chic, while the Red Cocktail Dress is a real head-turner. Which vibe are you going for?`,
       recommendedProducts: results,
+      mood: "warm",
     };
   }
 
@@ -67,6 +80,7 @@ function generateResponse(message: string): { text: string; recommendedProducts:
     return {
       text: `Great taste! The Classic White Sneakers are a wardrobe staple - they literally go with everything. If you want something more refined, the Chelsea Boots are incredibly versatile. What's the occasion?`,
       recommendedProducts: results,
+      mood: "expert",
     };
   }
 
@@ -75,6 +89,7 @@ function generateResponse(message: string): { text: string; recommendedProducts:
     return {
       text: `Accessories can make or break an outfit! The Italian Leather Messenger Bag is a timeless investment piece, and the Aviator Sunglasses add instant cool. What's your style preference?`,
       recommendedProducts: results,
+      mood: "expert",
     };
   }
 
@@ -89,6 +104,7 @@ function generateResponse(message: string): { text: string; recommendedProducts:
     return {
       text: `Here's a curated outfit I put together! The Cashmere Turtleneck pairs beautifully with the Tailored Trousers for a sleek silhouette. Add the Chelsea Boots and Silver Pendant to complete the look. Total: $${total.toFixed(2)} - want me to add the whole bundle to your bag?`,
       recommendedProducts: outfit,
+      mood: "expert",
     };
   }
 
@@ -97,12 +113,14 @@ function generateResponse(message: string): { text: string; recommendedProducts:
     return {
       text: `I found ${results.length} item${results.length > 1 ? "s" : ""} matching what you're looking for! Here are my top picks. Want me to filter or sort them differently?`,
       recommendedProducts: results.slice(0, 4),
+      mood: "warm",
     };
   }
 
   return {
     text: `I'd love to help with that! Try telling me what occasion you're shopping for, your budget, or describe what you have in mind. For example: "I need a summer wedding outfit under $300" or "Show me casual weekend looks."`,
     recommendedProducts: [],
+    mood: "warm",
   };
 }
 
@@ -158,14 +176,14 @@ export default function ChatPanel({ open, onClose }: ChatPanelProps) {
   return (
     <Sheet open={open} onOpenChange={(o) => !o && onClose()}>
       <SheetContent className="w-full sm:max-w-md flex flex-col p-0">
-        <SheetHeader className="p-4 border-b border-border/50">
+        <SheetHeader className="p-4 border-b border-[hsl(247,75%,64%)]/10">
           <SheetTitle className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-primary" />
+            <div className="w-8 h-8 rounded-full bg-[hsl(247,75%,64%)]/15 flex items-center justify-center animate-pulse-glow">
+              <Sparkles className="w-4 h-4 text-[hsl(247,75%,72%)]" />
             </div>
             <div>
               <span className="font-serif text-base block" data-testid="text-sophia-name">Sophia</span>
-              <span className="text-[10px] text-muted-foreground font-normal">Your Personal Stylist</span>
+              <span className="text-[10px] text-[hsl(247,75%,64%)]/50 font-normal">Your Personal Stylist</span>
             </div>
           </SheetTitle>
         </SheetHeader>
@@ -175,13 +193,14 @@ export default function ChatPanel({ open, onClose }: ChatPanelProps) {
             {messages.map((msg) => (
               <motion.div
                 key={msg.id}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
                 className={`flex gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 {msg.role === "assistant" && (
-                  <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-1">
-                    <Bot className="w-3.5 h-3.5 text-primary" />
+                  <div className="w-7 h-7 rounded-full bg-[hsl(247,75%,64%)]/15 flex items-center justify-center flex-shrink-0 mt-1">
+                    <Bot className="w-3.5 h-3.5 text-[hsl(247,75%,72%)]" />
                   </div>
                 )}
                 <div
@@ -192,8 +211,8 @@ export default function ChatPanel({ open, onClose }: ChatPanelProps) {
                   <div
                     className={`rounded-2xl px-3 py-2 text-sm leading-relaxed ${
                       msg.role === "user"
-                        ? "bg-primary text-primary-foreground rounded-br-sm"
-                        : "bg-muted text-foreground rounded-bl-sm"
+                        ? "bg-[hsl(247,75%,64%)] text-white rounded-br-sm"
+                        : "bg-[hsl(247,75%,64%)]/10 border border-[hsl(247,75%,64%)]/10 text-foreground rounded-bl-sm"
                     }`}
                     data-testid={`chat-message-${msg.id}`}
                   >
@@ -205,7 +224,7 @@ export default function ChatPanel({ open, onClose }: ChatPanelProps) {
                       {msg.products.map((product) => (
                         <div
                           key={product.id}
-                          className="flex items-center gap-2 p-2 rounded-lg bg-card border border-border/50"
+                          className="flex items-center gap-2 p-2 rounded-lg bg-card border border-[hsl(247,75%,64%)]/10"
                           data-testid={`chat-product-${product.id}`}
                         >
                           <div className="w-10 h-12 rounded overflow-hidden bg-muted flex-shrink-0">
@@ -221,7 +240,7 @@ export default function ChatPanel({ open, onClose }: ChatPanelProps) {
                                 {product.name}
                               </p>
                             </Link>
-                            <p className="text-xs text-primary font-semibold">
+                            <p className="text-xs text-[hsl(247,75%,72%)] font-semibold">
                               ${product.price.toFixed(2)}
                             </p>
                           </div>
@@ -254,21 +273,21 @@ export default function ChatPanel({ open, onClose }: ChatPanelProps) {
               animate={{ opacity: 1 }}
               className="flex gap-2 items-start"
             >
-              <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                <Bot className="w-3.5 h-3.5 text-primary" />
+              <div className="w-7 h-7 rounded-full bg-[hsl(247,75%,64%)]/15 flex items-center justify-center flex-shrink-0 animate-pulse-glow">
+                <Bot className="w-3.5 h-3.5 text-[hsl(247,75%,72%)]" />
               </div>
-              <div className="bg-muted rounded-2xl rounded-bl-sm px-4 py-3">
+              <div className="bg-[hsl(247,75%,64%)]/10 border border-[hsl(247,75%,64%)]/10 rounded-2xl rounded-bl-sm px-4 py-3">
                 <div className="flex gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: "300ms" }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[hsl(247,75%,64%)]/40 animate-bounce" style={{ animationDelay: "0ms" }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[hsl(247,75%,64%)]/40 animate-bounce" style={{ animationDelay: "150ms" }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[hsl(247,75%,64%)]/40 animate-bounce" style={{ animationDelay: "300ms" }} />
                 </div>
               </div>
             </motion.div>
           )}
         </div>
 
-        <div className="border-t border-border/50 p-3">
+        <div className="border-t border-[hsl(247,75%,64%)]/10 p-3">
           <div className="flex gap-2">
             <Input
               ref={inputRef}
@@ -297,7 +316,7 @@ export default function ChatPanel({ open, onClose }: ChatPanelProps) {
                     setInput(suggestion);
                     setTimeout(() => inputRef.current?.focus(), 0);
                   }}
-                  className="text-[10px] px-2 py-1 rounded-full border border-border/50 text-muted-foreground transition-colors hover-elevate"
+                  className="text-[10px] px-2 py-1 rounded-full border border-[hsl(247,75%,64%)]/15 text-muted-foreground transition-colors hover-elevate"
                   data-testid={`button-suggestion-${suggestion.toLowerCase().replace(/\s+/g, "-")}`}
                 >
                   {suggestion}

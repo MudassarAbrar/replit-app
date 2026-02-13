@@ -26,7 +26,7 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
 
         {items.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center">
-            <ShoppingBag className="w-12 h-12 text-muted-foreground/40" />
+            <ShoppingBag className="w-12 h-12 text-muted-foreground/20" />
             <div>
               <p className="font-serif text-lg text-foreground" data-testid="text-empty-cart">Your bag is empty</p>
               <p className="text-sm text-muted-foreground mt-1">
@@ -69,7 +69,7 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
                         {item.selectedSize && `Size: ${item.selectedSize}`}
                         {item.selectedColor && ` / ${item.selectedColor}`}
                       </p>
-                      <p className="text-sm font-semibold text-primary mt-1">
+                      <p className="text-sm font-semibold text-[hsl(247,75%,72%)] mt-1">
                         ${item.product.price.toFixed(2)}
                       </p>
                       <div className="flex items-center gap-2 mt-2">
@@ -126,7 +126,7 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
               <Separator />
               <div className="flex items-center justify-between">
                 <span className="font-serif text-base font-semibold">Total</span>
-                <span className="font-serif text-lg font-bold text-primary" data-testid="text-cart-total">
+                <span className="font-serif text-lg font-bold text-[hsl(247,75%,72%)]" data-testid="text-cart-total">
                   ${total.toFixed(2)}
                 </span>
               </div>

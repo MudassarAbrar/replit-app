@@ -20,8 +20,8 @@ export default function ProductCard({ product, index = 0, highlighted }: Product
       <Link href={`/product/${product.id}`}>
         <motion.div
           className="relative aspect-[3/4] rounded-md overflow-hidden bg-muted cursor-pointer group"
-          whileHover={{ y: -4 }}
-          transition={{ duration: 0.3 }}
+          whileHover={{ y: -8, boxShadow: "0 20px 25px -5px hsl(247 75% 64% / 0.2)" }}
+          transition={{ type: "spring", damping: 15 }}
         >
           <img
             src={product.imageUrl}
@@ -29,7 +29,7 @@ export default function ProductCard({ product, index = 0, highlighted }: Product
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a12]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
           <div className="absolute top-3 left-3 flex flex-col gap-1.5">
             {product.isNew && (
@@ -75,7 +75,7 @@ export default function ProductCard({ product, index = 0, highlighted }: Product
             {product.name}
           </h3>
         </Link>
-        <p className="editorial-subheading text-muted-foreground/60 !text-[0.6rem]">{product.subcategory}</p>
+        <p className="editorial-subheading text-primary/40 !text-[0.6rem]">{product.subcategory}</p>
         <div className="flex items-center justify-between gap-2">
           <span className="text-sm font-semibold text-foreground" data-testid={`text-product-price-${product.id}`}>
             ${product.price.toFixed(2)}

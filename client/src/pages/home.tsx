@@ -50,10 +50,10 @@ function Marquee({ items, speed = "normal" }: { items: string[]; speed?: "normal
   return (
     <div className="overflow-hidden whitespace-nowrap">
       <div className={`marquee-track ${speed === "slow" ? "animate-marquee-slow" : "animate-marquee"}`}>
-        <span className="inline-block pr-8 editorial-subheading text-muted-foreground/60">
+        <span className="inline-block pr-8 editorial-subheading text-muted-foreground/40">
           {content} &nbsp;&bull;&nbsp; {content} &nbsp;&bull;&nbsp;
         </span>
-        <span className="inline-block pr-8 editorial-subheading text-muted-foreground/60">
+        <span className="inline-block pr-8 editorial-subheading text-muted-foreground/40">
           {content} &nbsp;&bull;&nbsp; {content} &nbsp;&bull;&nbsp;
         </span>
       </div>
@@ -81,7 +81,7 @@ export default function Home({ onChatOpen }: HomeProps) {
             alt="Fashion editorial"
             className="w-full h-full object-cover scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a12] via-[#0a0a12]/60 to-[#1a0a2e]/30" />
         </motion.div>
 
         <motion.div
@@ -92,7 +92,7 @@ export default function Home({ onChatOpen }: HomeProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.2 }}
-            className="editorial-subheading text-white/50 mb-6"
+            className="editorial-subheading text-[hsl(247,75%,75%)]/60 mb-6"
             data-testid="badge-hero-tag"
           >
             AI-Powered Fashion
@@ -100,12 +100,12 @@ export default function Home({ onChatOpen }: HomeProps) {
 
           <div className="max-w-4xl">
             <TextRevealLine delay={0.3}>
-              <h1 className="editorial-heading text-5xl sm:text-7xl lg:text-8xl font-bold text-white" data-testid="text-hero-title">
+              <h1 className="editorial-heading text-5xl sm:text-7xl lg:text-8xl text-white" data-testid="text-hero-title">
                 Don't just shop.
               </h1>
             </TextRevealLine>
             <TextRevealLine delay={0.5}>
-              <h1 className="editorial-heading text-5xl sm:text-7xl lg:text-8xl font-bold text-primary">
+              <h1 className="editorial-heading text-5xl sm:text-7xl lg:text-8xl text-[hsl(247,75%,72%)]">
                 Get styled.
               </h1>
             </TextRevealLine>
@@ -115,7 +115,7 @@ export default function Home({ onChatOpen }: HomeProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-8 text-base sm:text-lg text-white/50 max-w-xl leading-relaxed"
+            className="mt-8 text-base sm:text-lg text-white/40 max-w-xl leading-relaxed"
           >
             Meet Sophia, your AI personal stylist. Describe what you need
             and watch as your perfect wardrobe comes together.
@@ -135,7 +135,7 @@ export default function Home({ onChatOpen }: HomeProps) {
             </Link>
             <Button
               variant="outline"
-              className="gap-2 bg-white/5 border-white/20 text-white backdrop-blur-sm"
+              className="gap-2 bg-white/5 border-[hsl(247,75%,64%)]/30 text-white backdrop-blur-sm"
               onClick={onChatOpen}
               data-testid="button-talk-sophia"
             >
@@ -150,18 +150,18 @@ export default function Home({ onChatOpen }: HomeProps) {
             transition={{ duration: 1, delay: 1.4 }}
             className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2"
           >
-            <span className="editorial-subheading text-white/30 text-[0.6rem]">Scroll</span>
+            <span className="editorial-subheading text-white/20 text-[0.6rem]">Scroll</span>
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
-              <ArrowDown className="w-4 h-4 text-white/30" />
+              <ArrowDown className="w-4 h-4 text-white/20" />
             </motion.div>
           </motion.div>
         </motion.div>
       </section>
 
-      <section className="py-6 border-b border-border/30 overflow-hidden">
+      <section className="py-6 border-b border-border/20 overflow-hidden">
         <Marquee
           items={["Free Shipping Over $100", "Secure Checkout", "30-Day Returns", "AI Styling", "Curated Collections", "Luxury Materials"]}
           speed="slow"
@@ -173,8 +173,8 @@ export default function Home({ onChatOpen }: HomeProps) {
           <ScrollReveal>
             <div className="flex items-end justify-between gap-4 mb-12">
               <div>
-                <p className="editorial-subheading text-muted-foreground mb-3">Curated for you</p>
-                <h2 className="editorial-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground" data-testid="text-featured-title">
+                <p className="editorial-subheading text-primary/60 mb-3">Curated for you</p>
+                <h2 className="editorial-heading text-3xl sm:text-4xl lg:text-5xl text-foreground" data-testid="text-featured-title">
                   Featured Pieces
                 </h2>
               </div>
@@ -202,23 +202,23 @@ export default function Home({ onChatOpen }: HomeProps) {
             alt="Collection"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/85 to-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a12] via-[#0a0a12]/90 to-[#1a0a2e]/60" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <ScrollReveal>
-                <p className="editorial-subheading text-primary/80 mb-4">Meet Sophia</p>
+                <p className="editorial-subheading text-[hsl(247,75%,72%)]/70 mb-4">Meet Sophia</p>
               </ScrollReveal>
               <ScrollReveal delay={0.1}>
-                <h2 className="editorial-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                <h2 className="editorial-heading text-4xl sm:text-5xl lg:text-6xl text-white leading-tight">
                   Your AI stylist,
                   <br />
-                  <span className="text-primary">always on.</span>
+                  <span className="text-[hsl(247,75%,72%)]">always on.</span>
                 </h2>
               </ScrollReveal>
               <ScrollReveal delay={0.2}>
-                <p className="mt-6 text-white/50 leading-relaxed text-lg max-w-md">
+                <p className="mt-6 text-white/40 leading-relaxed text-lg max-w-md">
                   Describe your ideal look, negotiate prices, get outfit
                   recommendations, and shop entirely through conversation.
                 </p>
@@ -229,7 +229,7 @@ export default function Home({ onChatOpen }: HomeProps) {
                     <Badge
                       key={feature}
                       variant="secondary"
-                      className="bg-white/10 text-white/70 border-white/10"
+                      className="bg-[hsl(247,75%,64%)]/10 text-[hsl(247,75%,80%)]/70 border-[hsl(247,75%,64%)]/20"
                     >
                       {feature}
                     </Badge>
@@ -246,24 +246,24 @@ export default function Home({ onChatOpen }: HomeProps) {
 
             <ScrollReveal delay={0.3} className="hidden lg:block">
               <div className="relative">
-                <div className="bg-card/80 glass-panel rounded-md p-6 border border-border/30 max-w-sm ml-auto">
+                <div className="bg-[hsl(263,30%,9%)]/80 glass-panel-purple rounded-md p-6 border border-[hsl(247,75%,64%)]/15 max-w-sm ml-auto sophia-glow">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                      <Sparkles className="w-5 h-5 text-primary" />
+                    <div className="w-10 h-10 rounded-full bg-[hsl(247,75%,64%)]/15 flex items-center justify-center animate-pulse-glow">
+                      <Sparkles className="w-5 h-5 text-[hsl(247,75%,72%)]" />
                     </div>
                     <div>
-                      <p className="font-medium text-foreground text-sm">Sophia</p>
-                      <p className="text-[10px] text-muted-foreground">AI Stylist</p>
+                      <p className="font-medium text-white text-sm">Sophia</p>
+                      <p className="text-[10px] text-white/40">AI Stylist</p>
                     </div>
                   </div>
                   <div className="space-y-3">
-                    <div className="bg-muted rounded-2xl rounded-bl-sm px-4 py-2.5 text-sm text-foreground">
+                    <div className="bg-[hsl(247,75%,64%)]/10 border border-[hsl(247,75%,64%)]/10 rounded-2xl rounded-bl-sm px-4 py-2.5 text-sm text-white/80">
                       I found the perfect wedding outfit for you! Here's what I suggest...
                     </div>
-                    <div className="bg-primary rounded-2xl rounded-br-sm px-4 py-2.5 text-sm text-primary-foreground ml-auto max-w-[80%]">
+                    <div className="bg-[hsl(247,75%,64%)]/80 rounded-2xl rounded-br-sm px-4 py-2.5 text-sm text-white ml-auto max-w-[80%]">
                       Can you make it under $300?
                     </div>
-                    <div className="bg-muted rounded-2xl rounded-bl-sm px-4 py-2.5 text-sm text-foreground">
+                    <div className="bg-[hsl(43,100%,70%)]/10 border border-[hsl(43,100%,70%)]/15 rounded-2xl rounded-bl-sm px-4 py-2.5 text-sm text-[hsl(43,100%,80%)] gold-glow">
                       Absolutely! Use code SOPHIA-15 for 15% off the bundle.
                     </div>
                   </div>
@@ -274,7 +274,7 @@ export default function Home({ onChatOpen }: HomeProps) {
         </div>
       </section>
 
-      <section className="py-6 overflow-hidden border-y border-border/30">
+      <section className="py-6 overflow-hidden border-y border-border/20">
         <Marquee items={["Clothing", "Footwear", "Accessories", "New Arrivals", "Dresses", "Blazers", "Sneakers", "Watches"]} />
       </section>
 
@@ -283,8 +283,8 @@ export default function Home({ onChatOpen }: HomeProps) {
           <ScrollReveal>
             <div className="flex items-end justify-between gap-4 mb-12">
               <div>
-                <p className="editorial-subheading text-muted-foreground mb-3">Just dropped</p>
-                <h2 className="editorial-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground" data-testid="text-new-arrivals-title">
+                <p className="editorial-subheading text-primary/60 mb-3">Just dropped</p>
+                <h2 className="editorial-heading text-3xl sm:text-4xl lg:text-5xl text-foreground" data-testid="text-new-arrivals-title">
                   New Arrivals
                 </h2>
               </div>
@@ -309,12 +309,15 @@ export default function Home({ onChatOpen }: HomeProps) {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <ScrollReveal>
             <blockquote className="max-w-4xl mx-auto text-center">
-              <p className="editorial-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground leading-relaxed">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-8 animate-pulse-glow">
+                <Sparkles className="w-6 h-6 text-primary/60" />
+              </div>
+              <p className="editorial-heading text-2xl sm:text-3xl lg:text-4xl text-foreground leading-relaxed">
                 "Every outfit tells a story. Every detail, a choice.
                 <span className="text-muted-foreground"> This is where we dress deeper &mdash; finding the pieces that speak to who you are."</span>
               </p>
               <footer className="mt-8">
-                <p className="editorial-subheading text-muted-foreground">Sophia, AI Stylist</p>
+                <p className="editorial-subheading text-primary/50">Sophia, AI Stylist</p>
               </footer>
             </blockquote>
           </ScrollReveal>
@@ -325,8 +328,8 @@ export default function Home({ onChatOpen }: HomeProps) {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <ScrollReveal>
             <div className="text-center mb-14">
-              <p className="editorial-subheading text-muted-foreground mb-3">Browse by</p>
-              <h2 className="editorial-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">
+              <p className="editorial-subheading text-primary/50 mb-3">Browse by</p>
+              <h2 className="editorial-heading text-3xl sm:text-4xl lg:text-5xl text-foreground">
                 Shop Categories
               </h2>
             </div>
@@ -350,13 +353,13 @@ export default function Home({ onChatOpen }: HomeProps) {
                       alt={cat.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a12]/90 via-[#1a0a2e]/30 to-transparent" />
                     <div className="absolute bottom-6 left-6 right-6">
-                      <h3 className="editorial-heading text-2xl sm:text-3xl font-bold text-white">
+                      <h3 className="editorial-heading text-2xl sm:text-3xl text-white">
                         {cat.name}
                       </h3>
-                      <p className="editorial-subheading text-white/50 mt-2">{cat.count} items</p>
-                      <div className="mt-4 h-[1px] bg-white/20 relative overflow-hidden">
+                      <p className="editorial-subheading text-white/40 mt-2">{cat.count} items</p>
+                      <div className="mt-4 h-[1px] bg-white/10 relative overflow-hidden">
                         <motion.div
                           className="absolute inset-y-0 left-0 bg-primary"
                           initial={{ width: "0%" }}
@@ -374,7 +377,7 @@ export default function Home({ onChatOpen }: HomeProps) {
         </div>
       </section>
 
-      <section className="py-12 border-b border-border/30">
+      <section className="py-12 border-b border-border/20">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {[
@@ -385,7 +388,7 @@ export default function Home({ onChatOpen }: HomeProps) {
               <ScrollReveal key={item.title} delay={i * 0.1}>
                 <div className="flex items-center gap-4 p-4">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <item.icon className="w-5 h-5 text-primary" />
+                    <item.icon className="w-5 h-5 text-primary/60" />
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-foreground">{item.title}</p>
@@ -398,11 +401,11 @@ export default function Home({ onChatOpen }: HomeProps) {
         </div>
       </section>
 
-      <footer className="border-t border-border/30 py-16">
+      <footer className="border-t border-border/20 py-16">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div>
-              <h4 className="editorial-heading text-xl font-bold text-foreground mb-4">
+              <h4 className="editorial-heading text-xl text-foreground mb-4">
                 The Shopkeeper
               </h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -440,8 +443,8 @@ export default function Home({ onChatOpen }: HomeProps) {
               </ul>
             </div>
           </div>
-          <div className="mt-12 pt-8 border-t border-border/30 text-center">
-            <p className="text-xs text-muted-foreground/50">
+          <div className="mt-12 pt-8 border-t border-border/20 text-center">
+            <p className="text-xs text-muted-foreground/40">
               Built with AI by Team AgentX for Softronix 4.0
             </p>
           </div>

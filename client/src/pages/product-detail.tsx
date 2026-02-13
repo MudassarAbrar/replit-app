@@ -134,7 +134,7 @@ export default function ProductDetail({ onChatOpen }: ProductDetailProps) {
               </Badge>
             </div>
 
-            <h1 className="editorial-heading text-3xl sm:text-4xl font-bold text-foreground" data-testid="text-product-title">
+            <h1 className="editorial-heading text-3xl sm:text-4xl text-foreground" data-testid="text-product-title">
               {product.name}
             </h1>
 
@@ -156,7 +156,7 @@ export default function ProductDetail({ onChatOpen }: ProductDetailProps) {
               </span>
             </div>
 
-            <p className="editorial-heading text-3xl sm:text-4xl font-bold text-foreground mt-6" data-testid="text-product-price">
+            <p className="editorial-heading text-3xl sm:text-4xl text-foreground mt-6" data-testid="text-product-price">
               ${product.price.toFixed(2)}
             </p>
 
@@ -178,7 +178,7 @@ export default function ProductDetail({ onChatOpen }: ProductDetailProps) {
                       onClick={() => setSelectedColor(color)}
                       className={`px-4 py-2 rounded-md border text-xs capitalize transition-all duration-200 ${
                         selectedColor === color
-                          ? "border-foreground bg-foreground/5 text-foreground"
+                          ? "border-primary bg-primary/10 text-foreground"
                           : "border-border text-muted-foreground"
                       }`}
                       data-testid={`button-color-${color}`}
@@ -202,7 +202,7 @@ export default function ProductDetail({ onChatOpen }: ProductDetailProps) {
                       onClick={() => setSelectedSize(size)}
                       className={`min-w-[2.5rem] px-3 py-2 rounded-md border text-xs font-medium flex items-center justify-center transition-all duration-200 ${
                         selectedSize === size
-                          ? "border-foreground bg-foreground/5 text-foreground"
+                          ? "border-primary bg-primary/10 text-foreground"
                           : "border-border text-muted-foreground"
                       }`}
                       data-testid={`button-size-${size}`}
@@ -251,7 +251,7 @@ export default function ProductDetail({ onChatOpen }: ProductDetailProps) {
 
             <button
               onClick={onChatOpen}
-              className="mt-4 flex items-center justify-center gap-2 py-2.5 text-sm text-muted-foreground transition-colors editorial-subheading !text-[0.65rem]"
+              className="mt-4 flex items-center justify-center gap-2 py-2.5 text-sm text-[hsl(247,75%,64%)]/60 transition-colors editorial-subheading !text-[0.65rem]"
               data-testid="button-ask-sophia"
             >
               <Sparkles className="w-4 h-4" />
@@ -267,7 +267,7 @@ export default function ProductDetail({ onChatOpen }: ProductDetailProps) {
                 { icon: Shield, text: "Secure checkout guaranteed" },
               ].map((item) => (
                 <div key={item.text} className="flex items-center gap-3">
-                  <item.icon className="w-4 h-4 text-muted-foreground/50" />
+                  <item.icon className="w-4 h-4 text-muted-foreground/40" />
                   <span className="text-xs text-muted-foreground">{item.text}</span>
                 </div>
               ))}
@@ -296,8 +296,8 @@ export default function ProductDetail({ onChatOpen }: ProductDetailProps) {
           <section className="py-20">
             <ScrollReveal>
               <div className="mb-10">
-                <p className="editorial-subheading text-muted-foreground mb-3">More to explore</p>
-                <h2 className="editorial-heading text-2xl sm:text-3xl font-bold text-foreground" data-testid="text-related-title">
+                <p className="editorial-subheading text-primary/50 mb-3">More to explore</p>
+                <h2 className="editorial-heading text-2xl sm:text-3xl text-foreground" data-testid="text-related-title">
                   You may also like
                 </h2>
               </div>

@@ -71,15 +71,15 @@ export default function Shop() {
 
   return (
     <div className="min-h-screen pt-20 sm:pt-24">
-      <div className="border-b border-border/30">
+      <div className="border-b border-border/20">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <p className="editorial-subheading text-muted-foreground mb-3">Collection</p>
-            <h1 className="editorial-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground" data-testid="text-shop-title">
+            <p className="editorial-subheading text-primary/50 mb-3">Collection</p>
+            <h1 className="editorial-heading text-4xl sm:text-5xl lg:text-6xl text-foreground" data-testid="text-shop-title">
               {category ? category.charAt(0).toUpperCase() + category.slice(1) : "All Products"}
             </h1>
             <p className="text-sm text-muted-foreground mt-3">
